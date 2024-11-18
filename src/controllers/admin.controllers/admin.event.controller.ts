@@ -94,12 +94,19 @@ export class AdminController {
         updateEventData,
         discountData
       ); // Membuat event baru
-      if (createdEvent) {
+      if (createdEvent?.status === 201) {
         // Jika event berhasil dibuat, kirim respon dengan status 201
         res.status(201).send({
           message: "Event created successfully", // Pesan sukses
           status: res.statusCode, // Menyertakan status kode dari respon
-          data: createdEvent, // Menyertakan data event yang baru dibuat
+          data: createdEvent?.newEvent, // Menyertakan data event yang baru dibuat
+        });
+      } else {
+        // Jika event gagal dibuat, kirim respon dengan status 400
+        res.status(400).send({
+          message: "Failed to create event", // Pesan error
+          status: res.statusCode, // Menyertakan status kode dari respon
+          details: createdEvent, // Menyertakan pesan status
         });
       }
     } catch (error) {

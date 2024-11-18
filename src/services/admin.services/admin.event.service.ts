@@ -61,7 +61,6 @@ export class AdminService {
     const originalPrice = eventData.event_price as number; // Mengambil harga asli
     const discountedPrice =
       originalPrice * (1 - discountData.discount_percentage / 100); // Menghitung harga diskon
-    console.log(eventData.event_image);
 
     // upload gambar ke cloudinary
     // const upload = await cloudinary.uploader.upload_stream((error,result)=>);
@@ -85,25 +84,38 @@ export class AdminService {
     });
 
     if (discountResponse) {
-      const newEvent = await this.prisma.event.create({
-        data: {
-          event_name: eventData.event_name,
-          event_image: uploadImage.secure_url,
-          event_description: eventData.event_description,
-          discountId: discountResponse.discount_id,
-          discounted_price: discountedPrice,
-          event_price: Number(eventData.event_price),
-          event_location: eventData.event_location,
-          event_capacity: Number(eventData.event_capacity),
-          categoryId: Number(eventData.categoryId),
-          event_start_date: new Date(eventData.event_start_date),
-          event_end_date: new Date(eventData.event_end_date),
-          is_online: eventData.is_online,
-          is_paid: eventData.is_paid,
-        },
-      });
-
-      return newEvent;
+      try {
+        console.log("discount created : ", discountResponse);
+        const newEvent = await this.prisma.event.create({
+          data: {
+            event_name: eventData.event_name,
+            event_image: uploadImage.secure_url,
+            event_description: eventData.event_description,
+            discountId: discountResponse.discount_id,
+            discounted_price: discountedPrice,
+            event_price: Number(eventData.event_price),
+            event_location: eventData.event_location,
+            event_capacity: Number(eventData.event_capacity),
+            categoryId: Number(eventData.categoryId),
+            event_start_date: new Date(eventData.event_start_date),
+            event_end_date: new Date(eventData.event_end_date),
+            is_online: eventData.is_online,
+            is_paid: eventData.is_paid,
+          },
+        });
+        console.log("event created", newEvent);
+        if (newEvent) {
+          console.log("execute");
+          return { status: 201, newEvent };
+        } else {
+          console.log("execute else");
+        }
+      } catch (error) {
+        return {
+          status: 400,
+          message: error,
+        };
+      }
     } else {
       return {
         status: 400,
@@ -115,6 +127,7 @@ export class AdminService {
   async streamUploader(image: Buffer) {
     // Implementasi streaming upload ke cloudinary
     const result = await streamUpload(image);
+    console.log("result", result);
     return result;
   }
 
@@ -134,12 +147,7 @@ export class AdminService {
       const uploadImage: UploadApiResponse = await this.streamUploader(
         updatedEventData.event_image
       );
-      // const upload = await cloudinary.uploader.upload(
-      //   updatedEventData.event_image,
-      //   {
-      //     folder: "events",
-      //   }
-      // );
+
       image = uploadImage.secure_url;
 
       // Memperbarui event berdasarkan ID
