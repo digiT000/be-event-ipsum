@@ -16,7 +16,10 @@ const PORT = process.env.SERVER_PORT_DEV;
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://event-ipsum.vercel.app", // Allow requests from your frontend origin
+    origin: "https://event-ipsum.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    credentials: true,
   })
 );
 // jalur utama dari api
