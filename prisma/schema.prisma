@@ -1,0 +1,116 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["techevent"]
+}
+
+model Users {
+  user_id        Int           @id @default(autoincrement())
+  userReferralId Int           @unique
+  referral_use   String?
+  name           String
+  email          String        @unique
+  password       String
+  points         Float         @default(0)
+  user_role      String
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @default(now())
+  refresh_token  String?
+  Review         Review[]
+  transaction    Transaction[]
+  user_referral  User_Referral @relation(fields: [userReferralId], references: [user_referral_id])
+
+  @@schema("techevent")
+}
+
+model User_Referral {
+  user_referral_id Int    @id @default(autoincrement())
+  limit_use        Int    @default(3)
+  total_use        Int
+  referral_code    String @unique
+  Users            Users?
+
+  @@schema("techevent")
+}
+
+model Transaction {
+  transaction_id  Int      @id @default(autoincrement())
+  userId          Int
+  eventId         Int
+  order_date      DateTime @default(now())
+  status_order    String
+  payment_ammount Float
+  payment_method  String
+  is_Discount     Boolean
+  usePoint        Float
+  Event           Event    @relation(fields: [eventId], references: [event_id])
+  Users           Users    @relation(fields: [userId], references: [user_id])
+
+  @@schema("techevent")
+}
+
+model Event {
+  event_id                                       Int             @id @default(autoincrement())
+  event_name                                     String
+  event_image                                    String
+  event_description                              String
+  event_price                                    Float
+  event_location                                 String
+  event_capacity                                 Int
+  categoryId                                     Int
+  event_start_date                               DateTime
+  event_end_date                                 DateTime
+  discounted_price                               Float
+  is_online                                      Boolean
+  is_paid                                        Boolean
+  created_at                                     DateTime        @default(now())
+  updated_at                                     DateTime        @default(now())
+  discountId                                    Int
+
+  Category                                       Category_Event  @relation(fields: [categoryId], references: [category_id])
+  Discount                                        Dicount_Event @relation(fields: [discountId],references: [discount_id])
+  Review                                         Review[]
+  Transaction                                    Transaction[]
+
+  @@schema("techevent")
+}
+
+model Category_Event {
+  category_id   Int      @id @default(autoincrement())
+  category_name String
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now())
+  event         Event[]
+
+  @@schema("techevent")
+}
+
+model Review {
+  review_id      Int      @id @default(autoincrement())
+  userId         Int
+  eventId        Int
+  review_content String
+  review_rating  Int
+  created_at     DateTime @default(now())
+  Event          Event    @relation(fields: [eventId], references: [event_id])
+  User           Users    @relation(fields: [userId], references: [user_id])
+
+  @@schema("techevent")
+}
+
+model Dicount_Event {
+  discount_id                            Int      @id @default(autoincrement())
+  discount_percentage                    Float
+  is_active                              Boolean
+  end_date                               DateTime
+  event         Event[]
+
+
+
+  @@schema("techevent")
+}
