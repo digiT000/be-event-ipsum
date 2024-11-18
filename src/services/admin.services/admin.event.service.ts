@@ -59,11 +59,14 @@ export class AdminService {
     const originalPrice = eventData.event_price as number; // Mengambil harga asli
     const discountedPrice =
       originalPrice * (1 - discountData.discount_percentage / 100); // Menghitung harga diskon
+    console.log(eventData.event_image);
 
     // upload gambar ke cloudinary
     const upload = await cloudinary.uploader.upload(eventData.event_image, {
       folder: "events",
     });
+
+    console.log(upload);
 
     // Membuat event baru di database
 
