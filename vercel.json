@@ -2,5 +2,15 @@
   "version": 2,
   "builds": [{ "src": "src/app.ts", "use": "@vercel/node" }],
   "routes": [{ "src": "/(.*)", "dest": "/src/app.ts" }],
-  "buildCommand": "npx prisma generate && npm install"
+  "buildCommand": "npx prisma generate && npm install",
+  "headers": [
+    {
+      "for": "/api/*",
+      "headers": [
+        "Access-Control-Allow-Origin: https://event-ipsum.vercel.app",
+        "Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers: Content-Type, Authorization"
+      ]
+    }
+  ]
 }
