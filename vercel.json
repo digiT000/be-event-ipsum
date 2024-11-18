@@ -5,7 +5,7 @@
   "buildCommand": "npx prisma generate && npm install",
   "headers": [
     {
-      "for": "/api/*",
+      "source": "/(.*)",
       "headers": [
         "Access-Control-Allow-Origin: https://event-ipsum.vercel.app",
         "Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS",
