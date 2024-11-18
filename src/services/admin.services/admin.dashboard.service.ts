@@ -1,14 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import {
-  BookingServiceCode,
-  BookingStatus,
-} from "../../models/booking.interface";
-import { log } from "console";
-
-interface GetMonthlyUserCountsResult {
-  totalUsers: number;
-  monthlyUsers: { month: number; count: number }[];
-}
+import { BookingStatus } from "../../models/booking.interface";
 
 export class AdminDashboardService {
   private prisma: PrismaClient;

@@ -2,11 +2,6 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { AuthUtils } from "../../utils/auth.utils";
 
-interface LoginData {
-  email: string;
-  password: string;
-}
-
 export class AuthAdminService {
   private prisma: PrismaClient;
   private authUtil: AuthUtils;

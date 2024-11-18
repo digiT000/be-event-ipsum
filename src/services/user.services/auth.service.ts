@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { AuthProps, validateUserResponse } from "../../models/user.interface";
+import { AuthProps } from "../../models/user.interface";
 import { ReferralService } from "./referral.service";
 import bcrypt from "bcryptjs";
 import { AuthUtils } from "../../utils/auth.utils";

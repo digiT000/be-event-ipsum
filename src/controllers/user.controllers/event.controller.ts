@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { UserService } from "../../services/user.services/event.service";
-import { skip } from "node:test";
 
 export class UserController {
   private userService: UserService;
