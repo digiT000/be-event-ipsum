@@ -3,7 +3,9 @@ import { Event, EventResponse } from "../../models/admin.interface";
 import { env } from "process";
 import cloudinary from "../../config/cloudinary";
 import { Discount } from "../../models/admin.interface";
-import { unlink } from "fs/promises";
+import { createReadStream } from "streamifier";
+import { streamUpload } from "../../utils/uploadStream";
+import { UploadApiResponse } from "cloudinary";
 
 export class AdminService {
   private prisma: PrismaClient;
@@ -62,11 +64,13 @@ export class AdminService {
     console.log(eventData.event_image);
 
     // upload gambar ke cloudinary
-    const upload = await cloudinary.uploader.upload(eventData.event_image, {
-      folder: "events",
-    });
+    // const upload = await cloudinary.uploader.upload_stream((error,result)=>);
 
-    console.log(upload);
+    // console.log(upload);
+
+    const uploadImage: UploadApiResponse = await this.streamUploader(
+      eventData.event_image
+    );
 
     // Membuat event baru di database
 
@@ -84,7 +88,7 @@ export class AdminService {
       const newEvent = await this.prisma.event.create({
         data: {
           event_name: eventData.event_name,
-          event_image: upload.secure_url,
+          event_image: uploadImage.secure_url,
           event_description: eventData.event_description,
           discountId: discountResponse.discount_id,
           discounted_price: discountedPrice,
@@ -108,6 +112,12 @@ export class AdminService {
     }
   }
 
+  async streamUploader(image: Buffer) {
+    // Implementasi streaming upload ke cloudinary
+    const result = await streamUpload(image);
+    return result;
+  }
+
   async updateEvent(
     event_id: number,
     discount_id: number,
@@ -121,13 +131,16 @@ export class AdminService {
     let image: string | undefined = undefined;
     if (updatedEventData.event_image) {
       // upload gambar ke cloudinary
-      const upload = await cloudinary.uploader.upload(
-        updatedEventData.event_image,
-        {
-          folder: "events",
-        }
+      const uploadImage: UploadApiResponse = await this.streamUploader(
+        updatedEventData.event_image
       );
-      image = upload.secure_url;
+      // const upload = await cloudinary.uploader.upload(
+      //   updatedEventData.event_image,
+      //   {
+      //     folder: "events",
+      //   }
+      // );
+      image = uploadImage.secure_url;
 
       // Memperbarui event berdasarkan ID
     }

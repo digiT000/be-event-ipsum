@@ -73,7 +73,7 @@ export class AdminController {
       };
 
       // untuk mengambil image sebagai file
-      const image = req.file ? req.file.path || "" : "";
+      const image = req.file ? req.file.buffer || "" : "";
 
       const updateEventData: Event = {
         event_name: event_name,
@@ -87,7 +87,7 @@ export class AdminController {
         is_active: is_active === "true" ? true : false,
         is_online: is_online === "true" ? true : false, // Apakah acara ini online
         is_paid: is_paid === "true" ? true : false, // Apakah acara ini bayar atau gratis
-        event_image: image, // Gambar acara
+        event_image: image as Buffer, // Gambar acara
       };
 
       const createdEvent = await this.adminService.createEvent(
@@ -136,7 +136,7 @@ export class AdminController {
       }: CreateEvent = req.body;
 
       // Menyediakan file image jika ada
-      const image = req.file ? req.file.path || "" : "";
+      const image = req.file ? req.file.buffer || "" : "";
 
       // Menyiapkan data untuk update event
       const updateEventData: Event = {
@@ -150,7 +150,7 @@ export class AdminController {
         event_end_date: new Date(event_end_date), // Konversi ke tipe Date
         is_online: is_online === "true" ? true : false,
         is_paid: is_paid === "true" ? true : false,
-        event_image: image,
+        event_image: image as Buffer,
       };
 
       // Panggil service untuk memperbarui event dan diskon

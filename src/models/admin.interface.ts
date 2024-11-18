@@ -1,7 +1,7 @@
 export interface Event {
   is_active?: boolean;
   event_name: string;
-  event_image: string;
+  event_image: Buffer;
   event_description: string;
   event_price: number;
   event_location: string;
