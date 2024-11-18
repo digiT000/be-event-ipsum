@@ -40,6 +40,8 @@ export class EventAdminMiddleware {
     ) {
       res.status(400).send({
         data: req.body,
+        image: image,
+        req_image: req.file,
         message: " semua field harus di isi", // Pesan error
         status: res.statusCode, // Menyertakan status kode dari respon
         details: res.statusMessage, // Menyertakan pesan status
