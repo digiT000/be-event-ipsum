@@ -21,7 +21,7 @@ export class EventAdminMiddleware {
       is_paid,
       event_end_date,
     }: CreateEvent = req.body;
-    const image = req.file ? req.file.path || "" : "";
+    const image = req.file ? req.file.buffer || "" : "";
 
     if (
       !event_name ||
