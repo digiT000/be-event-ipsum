@@ -7,10 +7,16 @@
       "src": "/api/*",
       "dest": "/api/*",
       "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      "headers": {
-        "key": "Access-Control-Allow-Origin",
-        "value": "http://localhost:3000, https://event-ipsum.vercel.app"
-      }
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "http://localhost:3000"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://event-ipsum.vercel.app"
+        }
+      ]
     }
   ],
   "buildCommand": "npx prisma generate && npm install"
