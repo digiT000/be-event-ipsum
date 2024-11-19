@@ -1,30 +1,18 @@
 {
   "version": 2,
   "builds": [{ "src": "src/app.ts", "use": "@vercel/node" }],
-  "rewrites": [
+  "routes": [
+    { "src": "/(.*)", "dest": "/src/app.ts" },
     {
-      "source": "/api/*",
-      "destination": "/api/*"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/api/*",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "https://be-event-ipsum-n5yc.vercel.app"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, PUT, DELETE, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization, X-Requested-With"
-        },
-        { "key": "Access-Control-Allow-Credentials", "value": "true" }
-      ]
+      "src": "/api/*",
+      "dest": "/api/*",
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      "headers": {
+        "Access-Control-Allow-Origin": "https://be-event-ipsum-n5yc.vercel.app",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
+        "Access-Control-Allow-Credentials": "true"
+      }
     }
   ],
   "buildCommand": "npx prisma generate && npm install"
