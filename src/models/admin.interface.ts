@@ -63,6 +63,19 @@ export interface EventResponse {
   is_online: boolean; // Apakah acara ini online
   is_paid: boolean; // Apakah acara ini bayar atau gratis
   event_status?: "Ongoing" | "Completed";
+  Review?: ReviewResponse[];
+}
+
+export interface ReviewResponse {
+  review_id: number;
+  userId: number;
+  eventId: number;
+  review_content: string;
+  review_rating: number;
+  created_at: Date;
+  User: {
+    name: string;
+  };
 }
 
 export interface user {

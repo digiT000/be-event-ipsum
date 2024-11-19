@@ -132,6 +132,15 @@ export class UserService {
         include: {
           Category: true,
           Discount: true,
+          Review: {
+            include: {
+              User: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
         },
 
         where: { event_id: event_id },
@@ -156,6 +165,7 @@ export class UserService {
         discounted_price: response.discounted_price,
         is_online: response.is_online,
         is_paid: response.is_paid,
+        Review: response.Review,
       };
     } else {
       return undefined;
@@ -184,7 +194,7 @@ export class UserService {
     }
 
     const response = await this.prisma.event.findMany({
-      take: 3,
+      take: 9,
       orderBy: {
         created_at: "desc",
       },

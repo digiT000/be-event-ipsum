@@ -3,7 +3,13 @@ export interface BookingData {
   is_paid: boolean;
   event_id: number;
   usePoint: number;
-  payment_method: "QRIS" | "bank bca" | "bca_virtual account";
+  payment_method:
+    | "QRIS"
+    | "bank bca"
+    | "bca_virtual account"
+    | "Bank BNI"
+    | "Bank Permata"
+    | "Bank BRI";
 }
 
 export interface ReviewData {
