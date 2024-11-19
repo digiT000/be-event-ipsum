@@ -195,6 +195,9 @@ export class AuthService {
         user_id: user_id,
         email: email,
       },
+      include: {
+        user_referral: true,
+      },
     });
     if (!user) {
       return {
