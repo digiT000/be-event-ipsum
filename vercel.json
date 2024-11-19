@@ -9,7 +9,7 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://event-ipsum.vercel.app"
+          "value": ["https://event-ipsum.vercel.app", "http://localhost:3000"]
         },
         {
           "key": "Access-Control-Allow-Methods",
