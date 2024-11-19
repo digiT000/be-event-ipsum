@@ -102,8 +102,9 @@ export class BookingEventController {
       };
 
       try {
-        const bookingEvent =
-          await this.bookingEventService.createBookingEvent(bookingData);
+        const bookingEvent = await this.bookingEventService.createBookingEvent(
+          bookingData
+        );
 
         // Event is paid
         if (bookingEvent.code === BookingServiceCode.BookingCreated) {
@@ -291,8 +292,9 @@ export class BookingEventController {
       };
 
       try {
-        const reviewBooking =
-          await this.bookingEventService.bookingReview(reviewData);
+        const reviewBooking = await this.bookingEventService.bookingReview(
+          reviewData
+        );
 
         if (reviewBooking?.status === BookingServiceCode.BookingCreated) {
           res.status(201).send({
