@@ -58,6 +58,7 @@ export interface EventResponse {
   category_name: string;
   event_start_date: Date | string; // Tanggal dan waktu mulai acara
   event_end_date: Date | string; // Tanggal dan waktu selesai acara
+  is_active: boolean;
   discounted_price?: number; // Harga diskon (opsional)
   is_online: boolean; // Apakah acara ini online
   is_paid: boolean; // Apakah acara ini bayar atau gratis

@@ -20,6 +20,7 @@ export class AdminService {
     const response = await this.prisma.event.findMany({
       include: {
         Category: true,
+        Discount: true,
       },
     });
 
@@ -38,6 +39,7 @@ export class AdminService {
         event_capacity: event.event_capacity,
         event_start_date: new Date(event.event_start_date).toLocaleDateString(),
         event_end_date: new Date(event.event_end_date).toLocaleDateString(),
+        is_active: event.Discount.is_active,
         discounted_price: event.discounted_price,
         is_online: event.is_online,
         is_paid: event.is_paid,
@@ -218,6 +220,7 @@ export class AdminService {
     const response = await this.prisma.event.findMany({
       include: {
         Category: true,
+        Discount: true,
       },
       where: {
         event_name: {
@@ -243,6 +246,7 @@ export class AdminService {
             event.event_start_date
           ).toLocaleDateString(),
           event_end_date: new Date(event.event_end_date).toLocaleDateString(),
+          is_active: event.Discount.is_active,
           discounted_price: event.discounted_price,
           is_online: event.is_online,
           is_paid: event.is_paid,
