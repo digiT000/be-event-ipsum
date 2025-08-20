@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "app.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start:prod": "node public/app.js",
     "dev": "ts-node-dev src/app.ts",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:generate": "prisma generate",
